@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="../output.css" rel="stylesheet">
+    <title>Admin</title>
 </head>
 <body>
-    Admin
-    <a href="./edit_matiere.php">Add matiere</a>
-    <a href="./add_question.php">Add Question</a>
-    <a href="./add_reponse.php">Add response</a>
+<div class="container mx-auto">
+        <?php
+        include "./header.php"
+        ?>
+</div>
 </body>
 </html>

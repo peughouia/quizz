@@ -6,6 +6,7 @@ if (!isset($_SESSION['id_user'])) {
     exit();
   }
 $idMatiere =  $_GET['id'];
+$index = 0;
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ $idMatiere =  $_GET['id'];
                         </a>
                     </div>
                     <div class="flex items-center">
-                        <a href="#" class="text-white px-3 py-2 rounded-md font-bold"> temps restant 00:30</a>
+                        <a href="#" id="countdown" class="text-white px-3 py-2 rounded-md font-bold"></a>
                     </div>
                 </div>
             </div>
@@ -43,7 +44,7 @@ $idMatiere =  $_GET['id'];
                             WHERE question.matiere_id = $idMatiere";
                 $res = $bdd->query($requete);
                 $currentQuestionId = null;
-                $index = 0;
+                
                 $ii = 0;
                 while($row = $res->fetch()){ 
                     if ($row['question_id'] !== $currentQuestionId) {
@@ -57,20 +58,41 @@ $idMatiere =  $_GET['id'];
             
                 }
                 echo"<input type=\"hidden\" name=\"nb_question\" value=\"$index\">";
+                echo"<input type=\"hidden\" name=\"id_matiere\" value=\"$idMatiere\">";
                 echo "</div>"
             ?>
-        </div>  
+        </div> 
         <div class="flex items-center justify-center">
-            <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded"
-            type="submit" name="submit" value="Soumettre">
+            <?php if($index<1){?>
+            <input class="bg-gray-300 text-black font-bold py-2 px-4 mb-10 mx-4 rounded"
+            type="submit" name="submit" value="Soumettre" disabled>
+            <a href="../user/home_user.php" class="bg-red-400 hover:bg-blue-700 text-white px-3 py-2 mb-10 mx-4 rounded-md">Retour</a>
+            <?php }else{?>
+                <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded"
+                type="submit" name="submit" value="Soumettre">
+                <a href="../user/home_user.php" class="bg-red-400 hover:bg-blue-700 text-white px-3 py-2 mb-10 mx-4 rounded-md">Retour</a>
+            <?php }?>
         </div>
         </form> 
-    </div>    
+    </div> 
+       
     <script>
-        // Déclenche la soumission après 30 secondes (30000 millisecondes)
-        setTimeout(function() {
-            document.getElementById("myForm").submit();
-        }, 30000);
+        var countdownElement = document.getElementById("countdown");
+        var remainingTime = 30; // Temps restant en secondes
+
+        function updateCountdown() {
+            countdownElement.innerHTML = "Temps restant : " + remainingTime + "s";
+            remainingTime--;
+
+            if (remainingTime < 0) {
+                countdownElement.innerHTML = "Décompte terminé!";
+            } else {
+                setTimeout(updateCountdown, 1000); // Mise à jour du décompte toutes les secondes
+            }
+        }
+
+        // Démarrer le décompte
+        updateCountdown();
     </script>  
 </body>
 </html>

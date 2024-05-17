@@ -8,6 +8,26 @@ if (!isset($_SESSION['id_user'])) {
   header("Location: ../index.php");
   exit();
 }
+
+function isAssociativeArrayEmpty($array) {
+    return empty(array_values($array));
+}
+
+function seachpass($idmatiere,$userid){
+    include "../config/config.php";
+    $req = "SELECT * FROM passed WHERE id_user = $userid AND id_matiere = $idmatiere LIMIT 1";
+    $ress = $bdd -> query($req);
+    if ($ress->rowCount() > 0) {
+        // Récupérer le premier enregistrement
+        $passed = $ress->fetch(PDO::FETCH_ASSOC);
+        $pass = $passed["passed"];
+        return $pass;
+        
+    } else {
+        return 0;
+    }
+}
+    
 ?>
 
 
@@ -36,6 +56,9 @@ if (!isset($_SESSION['id_user'])) {
                              myiuc QUIZZ APP 
                         </a>
                     </div>
+                    <div class="flex items-center">
+                    <a href="../auth/connexion.php" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md">Deconnexion</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -49,9 +72,16 @@ if (!isset($_SESSION['id_user'])) {
                         <p class="bg-red-400 text-black"><strong>ATTENTION: </strong> vous n'avez choisir aucune reponse</p>
                         <?php
                     break;
+
+                    case 'success':
+                        ?>
+                        <p class="bg-green-500 text-white"><strong class="text-black">SUCCES: </strong> vos reponses on été envoyé</p>
+                        <?php
+                    break;
+
                 }
             }
-        ?>
+        ?> 
         <h1 class=" text-green-800  text-2xl font-bold center mb-4 mt-4">BIENVENUE <?php echo "$nom $prenom"  ?></h1>
         <p class=" text-lg">Cher utilisateur, votre aventure de quiz commence ici ! Veuillez choisir le sujet qui 
             vous inspire le plus afin que nous puissions tester vos connaissances <p>
@@ -59,13 +89,23 @@ if (!isset($_SESSION['id_user'])) {
         <?php 
             $requete = "SELECT * from matiere";
             $res = $bdd -> query($requete);
-            while($row = $res -> fetch()){ 
-                echo "<div class=\"bg-blue-300 rounded-md overflow-hidden  shadow-lg mx-4\">
+            while($row = $res -> fetch()){
+                $pa = seachpass($row['id_matiere'],$userid);
+                if($pa == 1){
+                    echo "<div class=\"bg-blue-300 rounded-md overflow-hidden  shadow-lg mx-4\">
+                        <div class=\"p-4\">
+                            <h3 class=\"text-xl font-bold mb-2\">".$row['nom_matiere']."</h3>
+                            <button class=\"btncommencer bg-gray-300 text-green rounded px-4 py-2\">QUIZZ TERMINER</a></button>
+                        </div>
+                        </div>";
+                }else{
+                    echo "<div class=\"bg-blue-300 rounded-md overflow-hidden  shadow-lg mx-4\">
                 <div class=\"p-4\">
                     <h3 class=\"text-xl font-bold mb-2\">".$row['nom_matiere']."</h3>
                     <button class=\"btncommencer bg-green-500 hover:bg-blue-300 text-white rounded px-4 py-2\"><a href=\"quizz.php?id=" . $row["id_matiere"] . ";\">COMMENCER LE QUIZZ</a></button>
                 </div>
                 </div>";
+                }
             }
             
         ?> 
