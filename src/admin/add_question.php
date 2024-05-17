@@ -41,7 +41,7 @@
         <div class="bg-gray-200 rounded-md overflow-hidden  shadow-lg w-full flex items-center justify-center py-16">
             <form action="" method="post">
                 <div class="my-4">
-                    <label for="text" class="block mb-2">Selectionner la matiere</label>
+                    <label for="text" class="block mb-2">Selectionnez la matiere</label>
                     <select name="id_matiere" class="w-full border border-gray-400 rounded px-2 py-1 mb-8" required >
                     <?php
                         $listMatiere = "SELECT * FROM `matiere`";
@@ -68,13 +68,21 @@
         <table class="min-w-full bg-white border border-gray-300">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">Nom</th>
+                    <th class="py-2 px-4 border-b">Question</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="py-2 px-4 border-b">John Doe</td>
-                </tr>
+                    <?php
+                        $list_question = "SELECT * FROM `question`";
+                        $requetteQ = $bdd->query($list_question);
+                        while($row = $requetteQ->fetch()){
+                    ?>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><?php echo $row["qcontenu"] ?></td>
+                    </tr>
+                <?php
+                        }
+                ?>
                 <!-- Ajoutez d'autres lignes selon vos besoins -->
             </tbody>
         </table>

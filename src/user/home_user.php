@@ -53,7 +53,7 @@ function seachpass($idmatiere,$userid){
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <a href="#" class="flex items-center text-white text-xl font-bold">
-                             myiuc QUIZZ APP 
+                             myiuc QUIZ APP 
                         </a>
                     </div>
                     <div class="flex items-center">
@@ -95,14 +95,14 @@ function seachpass($idmatiere,$userid){
                     echo "<div class=\"bg-blue-300 rounded-md overflow-hidden  shadow-lg mx-4\">
                         <div class=\"p-4\">
                             <h3 class=\"text-xl font-bold mb-2\">".$row['nom_matiere']."</h3>
-                            <button class=\"btncommencer bg-gray-300 text-green rounded px-4 py-2\">QUIZZ TERMINER</a></button>
+                            <button class=\"btncommencer bg-gray-300 text-green rounded px-4 py-2\">QUIZ TERMINER</a></button>
                         </div>
                         </div>";
                 }else{
                     echo "<div class=\"bg-blue-300 rounded-md overflow-hidden  shadow-lg mx-4\">
                 <div class=\"p-4\">
                     <h3 class=\"text-xl font-bold mb-2\">".$row['nom_matiere']."</h3>
-                    <button class=\"btncommencer bg-green-500 hover:bg-blue-300 text-white rounded px-4 py-2\"><a href=\"quizz.php?id=" . $row["id_matiere"] . ";\">COMMENCER LE QUIZZ</a></button>
+                    <button class=\"btncommencer bg-green-500 hover:bg-blue-300 text-white rounded px-4 py-2\"><a href=\"quizz.php?id=" . $row["id_matiere"] . ";\">COMMENCER LE QUIZ</a></button>
                 </div>
                 </div>";
                 }
